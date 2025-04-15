@@ -31,6 +31,9 @@ public class UserController {
         String password = bCryptPasswordEncoder.encode(user.getuserPassword());
         user.setuserPassword(password);
         User newuser = userService.registerUser(user);
+
+
+
         return new ResponseEntity<>(newuser ,HttpStatus.OK);
     }
 
