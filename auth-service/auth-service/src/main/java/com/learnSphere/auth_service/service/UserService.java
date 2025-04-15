@@ -2,8 +2,10 @@ package com.learnSphere.auth_service.service;
 
 
 import com.learnSphere.auth_service.dto.LoginDTO;
+import com.learnSphere.auth_service.dto.UserProfileRequest;
 import com.learnSphere.auth_service.model.User;
 import com.learnSphere.auth_service.repo.UserRepo;
+import com.learnSphere.auth_service.utils.UserServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,9 +22,14 @@ public class UserService {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserServiceClient userServiceClient;
 
 
     public User registerUser(User user) {
+        UserProfileRequest userProfileRequest = new UserProfileRequest(user.getuserName(),user.getuserEmail(),user.getRole(),user.getAddress(),user.getPhoneNumber());
+        userServiceClient.createUserProfile(userProfileRequest);
+
         return userRepo.save(user);
     }
 

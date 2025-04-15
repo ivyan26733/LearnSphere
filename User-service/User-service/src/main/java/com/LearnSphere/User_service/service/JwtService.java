@@ -1,0 +1,92 @@
+package com.LearnSphere.User_service.service;
+
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+@Service
+public class JwtService {
+//
+    @Value("${jwt.secret}")
+    private String secretKey;
+
+//    public String generateToken(String emailId , UserDetails userDetail){
+//        Map<String , Object> claims = new HashMap<>();
+//
+//        claims.put("roles", userDetail.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .collect(Collectors.toList())); // Store roles in JWT
+//
+//
+//        return Jwts.builder()
+//                .claims()
+//                .add(claims)
+//                .subject(emailId)
+//                .issuedAt(new Date(System.currentTimeMillis()))
+//                .expiration(new Date(System.currentTimeMillis() + 30 * 60 * 60 * 1000))
+//                .and()
+//                .signWith(getKey())
+//                .compact();
+//    }
+//
+    private SecretKey getKey(){
+        byte[] keyByte = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyByte);    //Using hmacShaKey for hashing
+    }
+
+    public String extractUserName(String token) {
+        return extractClaim(token , Claims::getSubject);
+    }
+
+    private <T> T extractClaim(String token , Function<Claims,T> claimResolver){
+        final Claims claims = extractAllClaims(token);
+        return claimResolver.apply(claims);
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> (List<String>)claims.get("roles", List.class)).get(0);
+    }
+
+    public Claims extractAllClaims(String token){
+        return Jwts.parser()
+                .verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    public boolean isTokenValid(String token) {
+        try {
+            extractAllClaims(token); // if it fails, it's invalid
+            System.out.println("PASSED");
+            return true;
+        } catch (Exception e) {
+            System.out.println("FAILING");
+            return false;
+        }
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token , Claims::getExpiration);
+    }
+
+}
+
