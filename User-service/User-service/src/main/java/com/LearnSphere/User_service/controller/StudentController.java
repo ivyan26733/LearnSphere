@@ -20,9 +20,9 @@ public class StudentController {
     private ProfileService profileService;
 
 
-    @PostMapping("/userBio")
-    public ResponseEntity<ApiResponse<StudentProfile>> updateStudentProfile(@RequestBody StudentProfile profile){
-        StudentProfile updatedProfile = profileService.updateProfile(profile);
+    @PutMapping("/userBio/{userId}")
+    public ResponseEntity<ApiResponse<StudentProfile>> updateStudentProfile(@PathVariable Integer userId,@RequestBody StudentProfile profile){
+        StudentProfile updatedProfile = profileService.updateProfile(userId,profile);
         ApiResponse<StudentProfile> apiResponse = new ApiResponse<>("Profile Updated" , updatedProfile , true);
         return ResponseEntity.ok(apiResponse);
     }

@@ -19,8 +19,8 @@ public class ProfileService {
     @Autowired
     private InstructorRepo instructorRepo;
 
-    public StudentProfile updateProfile(StudentProfile profile) {
-        StudentProfile studentProfile = studentRepo.findByUserEmail(profile.getUserEmail());
+    public StudentProfile updateProfile(Integer userId,StudentProfile profile) {
+        StudentProfile studentProfile = studentRepo.findById(userId).orElse(null);
         studentProfile.setUserName(profile.getUserName());
         studentProfile.setAddress(profile.getAddress());
         studentProfile.setPhoneNumber(profile.getPhoneNumber());
@@ -28,10 +28,7 @@ public class ProfileService {
         studentProfile.setSkills(profile.getSkills());
         studentProfile.setSocialLinks(profile.getSocialLinks());
         studentProfile.setCertifications(profile.getCertifications());
-
-        studentRepo.save(studentProfile);
-
-        return studentProfile;
+        return studentRepo.save(studentProfile);
     }
 
     public InstructorProfile updateProfile(InstructorProfile profile) {
