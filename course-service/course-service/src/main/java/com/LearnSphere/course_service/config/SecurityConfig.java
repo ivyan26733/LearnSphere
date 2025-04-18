@@ -27,8 +27,7 @@ public class SecurityConfig {
 //                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler))
                 .headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests((auth) -> ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)
-                        auth.requestMatchers("")
-                                .permitAll()
+                        auth
                                 .requestMatchers(new String[]{"/protected/instructor/**"}).hasAuthority("ROLE_INSTRUCTOR").requestMatchers(new String[]{"/protected/student/**"})
                                 .hasAuthority("ROLE_STUDENT")
                                 .anyRequest()).authenticated())
