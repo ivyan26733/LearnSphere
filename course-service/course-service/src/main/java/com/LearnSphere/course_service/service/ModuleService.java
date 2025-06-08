@@ -32,4 +32,8 @@ public class ModuleService {
 
         return moduleRepo.save(newModule);
     }
+
+    public Module findModuleById(Integer moduleId) {
+        return moduleRepo.findById(moduleId).orElse(null);
+    }
 }
