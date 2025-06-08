@@ -12,27 +12,34 @@ import com.LearnSphere.course_service.model.Module;
 
 
 @RestController
-@RequestMapping("/protected/instructor")
+@RequestMapping("/protected")
 public class ModuleController {
 
     @Autowired
     private ModuleService moduleService;
 
-    @PostMapping("/module/add")
+    @PostMapping("/instructor/module/add")
     public ResponseEntity<ApiResponse<Module>> addCourse(@RequestBody Module module){
         moduleService.addModule(module);
         return ResponseEntity.ok(new ApiResponse<>("Successfully Added" , module , true));
     }
 
-    @DeleteMapping("/module/delete/{id}")
+    @DeleteMapping("/instructor/module/delete/{id}")
     public ResponseEntity<ApiResponse<String>> deleteCourse(@PathVariable Integer id){
         moduleService.deleteModule(id);
         return ResponseEntity.ok(new ApiResponse<>("Successfully Deleted" , null , true));
     }
 
-    @PutMapping("/module/update/{id}")
+    @PutMapping("/instructor/module/update/{id}")
     public ResponseEntity<ApiResponse<Module>> updateCourse(@PathVariable Integer id , @RequestBody Module module){
         Module newmodule = moduleService.updateModule(id , module);
         return ResponseEntity.ok(new ApiResponse<>("SuccessFully Updated" , newmodule , true));
+    }
+
+    @GetMapping("/instructor/module/{moduleId}")
+    public ResponseEntity<ApiResponse<Module>> getCourseById(@PathVariable Integer moduleId){
+        Module module =  moduleService.findModuleById(moduleId);
+
+        return ResponseEntity.ok(new ApiResponse<>("Fetched !!" , module , true));
     }
 }

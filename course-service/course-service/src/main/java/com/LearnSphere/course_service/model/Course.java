@@ -1,5 +1,6 @@
 package com.LearnSphere.course_service.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Course {
     private String category;
     private String imageName;
     private String imageType;
+    private boolean isPaid;
 
 //    @Lob
     @Column(name = "image_data", columnDefinition = "bytea")
@@ -31,16 +33,9 @@ public class Course {
     private String instructorEmail;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Module> module = new ArrayList<>();
 
-
-    public byte[] getImageData() {
-        return imageData;
-    }
-
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
-    }
 }
 
 

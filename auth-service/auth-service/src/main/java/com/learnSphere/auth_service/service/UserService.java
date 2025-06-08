@@ -1,7 +1,4 @@
 package com.learnSphere.auth_service.service;
-
-
-import com.learnSphere.auth_service.dto.LoginDTO;
 import com.learnSphere.auth_service.dto.UserProfileRequest;
 import com.learnSphere.auth_service.model.User;
 import com.learnSphere.auth_service.repo.UserRepo;
@@ -12,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -26,10 +24,10 @@ public class UserService {
     private UserServiceClient userServiceClient;
 
 
+    @Transactional
     public User registerUser(User user) {
         UserProfileRequest userProfileRequest = new UserProfileRequest(user.getuserName(),user.getuserEmail(),user.getRole(),user.getAddress(),user.getPhoneNumber());
         userServiceClient.createUserProfile(userProfileRequest);
-
         return userRepo.save(user);
     }
 
@@ -46,5 +44,20 @@ public class UserService {
 
     public User findByEmailId(String s) {
         return userRepo.findByUserEmail(s);
+    }
+
+    @Transactional
+    public void deleteUser(String email) {
+        userRepo.deleteByUserEmail(email);
+
+    }
+
+    public String getUserById(Integer userId) {
+        User user = userRepo.findById(userId).orElse(null);
+        if(user!=null){
+            return user.getuserEmail();
+        }
+
+        return "FAIL";
     }
 }

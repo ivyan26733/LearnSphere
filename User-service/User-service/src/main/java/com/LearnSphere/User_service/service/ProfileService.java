@@ -59,4 +59,8 @@ public class ProfileService {
 
         return instructorRepo.save(instructorProfile);
     }
+
+    public StudentProfile findStudentByEmailId(String email) {
+        return studentRepo.findByUserEmail(email);
+    }
 }

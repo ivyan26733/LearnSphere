@@ -1,6 +1,7 @@
 package com.LearnSphere.User_service.controller;
 
 
+import com.LearnSphere.User_service.dto.EnrollServiceDTO;
 import com.LearnSphere.User_service.model.StudentProfile;
 import com.LearnSphere.User_service.service.ProfileService;
 import com.LearnSphere.User_service.utils.ApiResponse;
@@ -18,6 +19,8 @@ import java.io.IOException;
 public class StudentController {
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private EnrollServiceDTO enrollServiceDTO;
 
 
     @PutMapping("/userBio/{userId}")
@@ -43,6 +46,22 @@ public class StudentController {
         byte[] imageFile = studentProfile.getImageData();
 
         return ResponseEntity.ok().contentType(MediaType.valueOf(studentProfile.getImageType())).body(imageFile);
+    }
+
+    @GetMapping("/email/{email}")
+    public EnrollServiceDTO getStudentProfile(@PathVariable String email){
+        StudentProfile studentProfile = profileService.findStudentByEmailId(email);
+
+        if(studentProfile == null){
+            return null;
+        }
+
+        enrollServiceDTO.setUserId(studentProfile.getUserId());
+        enrollServiceDTO.setUserName(studentProfile.getUserName());
+        enrollServiceDTO.setUserEmail(studentProfile.getUserEmail());
+        enrollServiceDTO.setRole(studentProfile.getRole());
+
+        return enrollServiceDTO;
     }
 
 

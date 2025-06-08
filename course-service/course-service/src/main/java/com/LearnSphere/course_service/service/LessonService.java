@@ -33,4 +33,8 @@ public class LessonService {
 
         return lessonRepo.save(newlesson);
     }
+
+    public Lesson findLessonById(Integer lessonId) {
+        return lessonRepo.findById(lessonId).orElse(null);
+    }
 }

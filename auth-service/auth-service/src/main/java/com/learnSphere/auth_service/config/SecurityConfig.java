@@ -38,7 +38,7 @@ public class SecurityConfig {
 //                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler))
                 .headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests((auth) -> ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)
-                        auth.requestMatchers("/protected/user/register", "/protected/user/login")
+                        auth.requestMatchers("/auth/user/register", "/auth/user/login")
                                 .permitAll()
 //                                .requestMatchers(new String[]{"/protected/products/admin/**"}).hasAuthority("ROLE_ADMIN").requestMatchers(new String[]{"/protected/user/customer/**", "/protected/carts/**"})
 //                                .hasAuthority("ROLE_CUSTOMER")
