@@ -1,20 +1,15 @@
 package com.LearnSphere.User_service.dto;
 
 
-public class UserDeleteEvent {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDeleteEvent implements Serializable {
     private String email;
-
-    public UserDeleteEvent(String email) {
-        this.email = email;
-    }
-    public UserDeleteEvent() {
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
