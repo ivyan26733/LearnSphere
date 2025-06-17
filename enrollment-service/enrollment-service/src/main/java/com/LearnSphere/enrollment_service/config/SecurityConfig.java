@@ -21,7 +21,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("SecurityFilterChain is being initialized .... ");
         return (SecurityFilterChain)http
                 .csrf((csrf) -> csrf.disable())
 //                .exceptionHandling(e -> e.accessDeniedHandler(customAccessDeniedHandler))

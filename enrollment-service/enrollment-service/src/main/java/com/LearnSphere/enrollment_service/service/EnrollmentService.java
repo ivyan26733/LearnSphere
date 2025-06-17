@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EnrollmentService {
@@ -21,6 +22,7 @@ public class EnrollmentService {
 
     @Autowired
     private EnrollmentRepo enrollmentRepo;
+
 
     public Enrollment enroll(String studentEmail, Integer courseId) {
         // 1. Fetch user by email from JWT
@@ -52,4 +54,22 @@ public class EnrollmentService {
         return "SUCCESS";
     }
 
+    public List<Enrollment> getenrolledCourses(String email){
+        List<Enrollment> enrollement = enrollmentRepo.findAllByStudentEmail(email);
+        return enrollement;
+    }
+
+    public CourseDTO getCourseById(Integer courseId, String email) {
+
+        List<Enrollment> enrollment = enrollmentRepo.findAllByStudentEmail(email);
+
+        for(Enrollment enroll : enrollment){
+            if(enroll.getCourseId().equals(courseId)){
+                CourseDTO courseDTO = courseServiceClient.getCourseById(courseId);
+                return courseDTO;
+            }
+
+        }
+        return null;
+    }
 }
