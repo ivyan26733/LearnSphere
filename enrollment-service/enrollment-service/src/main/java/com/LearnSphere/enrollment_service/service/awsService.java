@@ -4,8 +4,11 @@ import com.LearnSphere.enrollment_service.model.Enrollment;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,4 +46,26 @@ public class awsService {
     private String generateFileName(String originalFileName) {
         return UUID.randomUUID().toString() + "-" + originalFileName;
     }
+
+
+    public S3Object getFileObject(String fileName) {
+        return s3client.getObject(bucketName, fileName);
+    }
+
+    public Resource getFileResource(String fileName) {
+        S3Object s3Object = getFileObject(fileName);
+        return new InputStreamResource(s3Object.getObjectContent()) {
+            @Override
+            public String getFilename() {
+                return fileName;
+            }
+            @Override
+            public long contentLength() {
+                return s3Object.getObjectMetadata().getContentLength();
+            }
+        };
+    }
+
+
+
 }
