@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
     public static final String USER_SERVICE_QUEUE = "user.delete.user.queue";
-//    public static final String ENROLLMENT_SERVICE_QUEUE = "user.delete.enrollment.queue";
+    public static final String ENROLLMENT_SERVICE_QUEUE = "user.delete.enrollment.queue";
     public static final String EXCHANGE = "user.exchange";
 
     @Bean
@@ -21,10 +21,6 @@ public class RabbitMQConfig {
         return new Queue(USER_SERVICE_QUEUE);
     } //Creating queue
 
-//    @Bean
-//    public Queue Enrollmentqueue(){
-//        return new Queue(ENROLLMENT_SERVICE_QUEUE);
-//    } //Creating queue
 
     @Bean
     public DirectExchange exchange(){
@@ -32,8 +28,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding Userbinding(Queue queue, DirectExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with("user.delete");
+    public Binding Userbinding(Queue Userqueue, DirectExchange exchange){
+        return BindingBuilder.bind(Userqueue).to(exchange).with("user.delete");
     }
 
     @Bean

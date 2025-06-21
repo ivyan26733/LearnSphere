@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth/user")
+@RequestMapping("/api/public/auth")
 public class UserController {
 
     @Autowired

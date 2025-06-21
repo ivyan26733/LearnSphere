@@ -17,8 +17,8 @@ public class RabbitMQConfig {
     public static final String EXCHANGE = "user.exchange";
 
 //    @Bean
-//    public Queue Userqueue(){
-//        return new Queue(USER_SERVICE_QUEUE);
+//    public Queue queue(){
+//        return new Queue(ENROLLMENT_SERVICE_QUEUE);
 //    } //Creating queue
 
     @Bean
@@ -32,8 +32,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding Userbinding(Queue queue, DirectExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with("user.delete");
+    public Binding Userbinding(Queue Enrollmentqueue, DirectExchange exchange){
+        return BindingBuilder.bind(Enrollmentqueue).to(exchange).with("user.delete");
     }
 
     @Bean

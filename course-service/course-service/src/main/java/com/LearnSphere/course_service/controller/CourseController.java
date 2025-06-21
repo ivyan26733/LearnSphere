@@ -10,10 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/protected")
+@RequestMapping("/api/protected/courses")
 public class CourseController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class CourseController {
     private CourseServiceDTO courseServiceDTO;
 
 
-    @PostMapping("/instructor/course/add")
+    @PostMapping("/instructors/course/add")
     public ResponseEntity<ApiResponse<Course>> addCourse(@RequestPart("course")  String courseJson , @RequestPart("image") MultipartFile imageFile) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Course course  = objectMapper.readValue(courseJson , Course.class);
@@ -33,7 +34,7 @@ public class CourseController {
     }
 
 
-    @GetMapping("/instructor/course/{courseId}/image")
+    @GetMapping("/instructors/course/{courseId}/image")
     public ResponseEntity<byte[]> getImageByCourseId(@PathVariable int courseId) {
         Course course = courseService.findCourseById(courseId);
         byte[] imageFile = course.getImageData();
@@ -48,25 +49,25 @@ public class CourseController {
                 .body(imageFile);
     }
 
-    @DeleteMapping("/instructor/course/{courseId}/image")
+    @DeleteMapping("/instructors/course/{courseId}/image")
     public ResponseEntity<ApiResponse<String>> deleteImage(@PathVariable Integer courseId){
         courseService.deleteImage(courseId);
         return ResponseEntity.ok(new ApiResponse<>("Image Deleted" , null , true));
     }
 
-    @DeleteMapping("/instructor/course/delete/{id}")
+    @DeleteMapping("/instructors/course/delete/{id}")
     public ResponseEntity<ApiResponse<String>> deleteCourse(@PathVariable Integer id){
         courseService.deleteCourse(id);
         return ResponseEntity.ok(new ApiResponse<>("Successfully Deleted" , null , true));
     }
 
-    @PutMapping("/instructor/course/update/{id}")
+    @PutMapping("/instructors/course/update/{id}")
     public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable Integer id , @RequestBody Course course){
         Course newcourse = courseService.updateCourse(id , course);
         return ResponseEntity.ok(new ApiResponse<>("SuccessFully Updated" , newcourse , true));
     }
 
-    @PutMapping("/instructor/course/update/image/{id}")
+    @PutMapping("/instructors/course/update/image/{id}")
     public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable Integer id , @RequestPart("image") MultipartFile imageFile) throws IOException {
         Course newcourse = courseService.updateImage(id , imageFile);
         return ResponseEntity.ok(new ApiResponse<>("Image SuccessFully Updated" , newcourse , true));
@@ -84,6 +85,11 @@ public class CourseController {
         return courseServiceDTO;
     }
 
+    @PostMapping("/users/my-courses")
+    public List<CourseServiceDTO> getmyCourse(@RequestBody List<Integer> courseIds){
+        List<CourseServiceDTO> courses = courseService.getAllCourse(courseIds);
+        return courses;
+    }
 
 
 }

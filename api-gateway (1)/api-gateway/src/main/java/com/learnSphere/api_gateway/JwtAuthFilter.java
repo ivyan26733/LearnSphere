@@ -32,7 +32,7 @@ public class JwtAuthFilter implements GlobalFilter {
 
         String path = exchange.getRequest().getURI().getPath();
 
-        if (path.startsWith("/auth/user")) {
+        if (path.startsWith("/api/public/auth")) {
             return chain.filter(exchange);
         }
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/protected/student/")
+@RequestMapping("/api/protected/enrollments")
 public class EntrollmentController {
 
     @Autowired

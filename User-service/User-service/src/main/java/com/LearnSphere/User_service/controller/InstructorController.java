@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/protected/instructor")
+@RequestMapping("/api/protected/instructor")
 public class InstructorController {
     @Autowired
     private ProfileService profileService;
