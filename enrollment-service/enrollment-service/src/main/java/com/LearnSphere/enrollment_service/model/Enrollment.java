@@ -1,6 +1,8 @@
 package com.LearnSphere.enrollment_service.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,8 @@ public class Enrollment {
     private boolean isPaid;
     private LocalDateTime enrollmentDate;
 
+    @Column(nullable = true)
+    @Min(1) @Max(5)
     private Double ratingGiven;       // optional, set by student
     private Boolean completed;        // optional for progress
 

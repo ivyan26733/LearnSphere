@@ -24,6 +24,7 @@ public class Course {
     private String imageName;
     private String imageType;
     private boolean isPaid;
+    private Double rating;
 
 //    @Lob
     @Column(name = "image_data", columnDefinition = "bytea")

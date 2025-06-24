@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .headers((headers) -> headers.frameOptions((frameOptions) -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests((auth) -> ((AuthorizeHttpRequestsConfigurer.AuthorizedUrl)
                         auth
+                                .requestMatchers("/api/public/**").permitAll()
                                 .requestMatchers(new String[]{"/api/protected/courses/instructors/**"}).hasAuthority("ROLE_INSTRUCTOR").requestMatchers(new String[]{"/api/protected/users/students/**"})
                                 .hasAuthority("ROLE_STUDENT")
                                 .anyRequest()).authenticated())

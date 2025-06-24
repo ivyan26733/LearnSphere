@@ -50,6 +50,13 @@ public class EntrollmentController {
         return ResponseEntity.ok(new ApiResponse<>("Successfully Course Fetched",getCourse,true));
     }
 
+    @PostMapping("enroll/give/rating/{courseId}")
+    public ResponseEntity<ApiResponse<Enrollment>> courseRating(@RequestParam Double rating, @PathVariable Integer courseId, @AuthenticationPrincipal String email){
+        if(rating < 1 || rating > 5) return ResponseEntity.ok(new ApiResponse<>("Course Rating exceeding limits",null,true));
+        Enrollment response = enrollmentService.giveRating(rating,courseId,email);
+        return ResponseEntity.ok(new ApiResponse<>("Rating Updated",response,true));
+    }
+
 //    Get courses in which user is enrolled
 //    But also if user clicks on courses in which he is not enrolled or not paid , then he cannot proceed
 

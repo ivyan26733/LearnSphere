@@ -87,9 +87,11 @@ public class CourseController {
 
     @PostMapping("/users/my-courses")
     public List<CourseServiceDTO> getmyCourse(@RequestBody List<Integer> courseIds){
-        List<CourseServiceDTO> courses = courseService.getAllCourse(courseIds);
+        List<CourseServiceDTO> courses = courseService.getUserCourse(courseIds);
         return courses;
     }
+
+
 
 
 }

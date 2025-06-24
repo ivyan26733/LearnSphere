@@ -77,7 +77,7 @@ public class CourseService {
         courseRepo.save(course);
     }
 
-    public List<CourseServiceDTO> getAllCourse(List<Integer> courseIds) {
+    public List<CourseServiceDTO> getUserCourse(List<Integer> courseIds) {
         List<Course> courses = courseRepo.findAllById(courseIds);
 
         List<CourseServiceDTO> courseDtos = courses.stream().map(course -> {
@@ -110,6 +110,10 @@ public class CourseService {
             return dto;
         }).toList();
         return courseDtos;
+    }
+
+    public List<Course> getAllCourse() {
+        return courseRepo.findAll();
     }
 }
 

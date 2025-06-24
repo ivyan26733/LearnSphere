@@ -11,6 +11,7 @@ public class CourseDTO implements Serializable {
     private String title;
     private String category;
     private String instructorEmail;
+
     private boolean isPaid;
     private List<ModuleDTO> modules;
 }
