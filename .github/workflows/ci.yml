@@ -42,9 +42,9 @@ jobs:
       - name: Build Course Service
         working-directory: ./course-service
         run: mvn clean install test
-    
-    build-gateway:
-    name: Build Api Gateway
+
+  build-gateway:
+    name: Build API Gateway
     runs-on: ubuntu-latest
 
     steps:
@@ -57,11 +57,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build Api Gateway
-        working-directory: ./api-gateway (1)
+      - name: Build API Gateway
+        working-directory: ./api-gateway
         run: mvn clean install test
-    
-    build-UserService:
+
+  build-user:
     name: Build User Service
     runs-on: ubuntu-latest
 
@@ -78,9 +78,8 @@ jobs:
       - name: Build User Service
         working-directory: ./User-service
         run: mvn clean install test
-    
 
-    build-EnrollmentService:
+  build-enrollment:
     name: Build Enrollment Service
     runs-on: ubuntu-latest
 
@@ -95,10 +94,10 @@ jobs:
           java-version: '17'
 
       - name: Build Enrollment Service
-        working-directory: ./enrollment-service (1)
+        working-directory: ./enrollment-service
         run: mvn clean install test
-    
-    build-EurekaServer:
+
+  build-eureka:
     name: Build Eureka Server
     runs-on: ubuntu-latest
 
@@ -115,4 +114,3 @@ jobs:
       - name: Build Eureka Server
         working-directory: ./eureka-server
         run: mvn clean install test
-    
