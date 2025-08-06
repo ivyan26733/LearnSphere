@@ -10,7 +10,6 @@ jobs:
   build-auth:
     name: Build Auth Service
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,13 +21,12 @@ jobs:
           java-version: '17'
 
       - name: Build Auth Service
-        working-directory: ./auth-service
+        working-directory: ./auth-service/auth-service
         run: mvn clean install test
 
   build-course:
     name: Build Course Service
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -40,13 +38,12 @@ jobs:
           java-version: '17'
 
       - name: Build Course Service
-        working-directory: ./course-service
+        working-directory: ./course-service/course-service
         run: mvn clean install test
 
   build-gateway:
     name: Build API Gateway
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -58,13 +55,12 @@ jobs:
           java-version: '17'
 
       - name: Build API Gateway
-        working-directory: ./api-gateway
+        working-directory: ./api-gateway/api-gateway
         run: mvn clean install test
 
   build-user:
     name: Build User Service
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -76,13 +72,12 @@ jobs:
           java-version: '17'
 
       - name: Build User Service
-        working-directory: ./User-service
+        working-directory: ./User-service/User-service
         run: mvn clean install test
 
   build-enrollment:
     name: Build Enrollment Service
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -94,13 +89,12 @@ jobs:
           java-version: '17'
 
       - name: Build Enrollment Service
-        working-directory: ./enrollment-service
+        working-directory: ./enrollment-service/enrollment-service
         run: mvn clean install test
 
   build-eureka:
     name: Build Eureka Server
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -112,5 +106,5 @@ jobs:
           java-version: '17'
 
       - name: Build Eureka Server
-        working-directory: ./eureka-server
+        working-directory: ./eureka-server/eureka-server
         run: mvn clean install test
