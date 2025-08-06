@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -115,5 +116,58 @@ public class CourseService {
     public List<Course> getAllCourse() {
         return courseRepo.findAll();
     }
+
+    public List<Course> getRandomEntities(int count) {
+        Integer minId = courseRepo.findMinId();
+        Integer maxId = courseRepo.findMaxId();
+
+        if (minId == null || maxId == null || maxId < minId) {
+            return Collections.emptyList();
+        }
+
+        Set<Integer> allRandomIds = new HashSet<>();
+        Random random = new Random();
+
+        while (allRandomIds.size() < count) {
+            Integer randomId = minId + random.nextInt((maxId - minId + 1));
+            allRandomIds.add(randomId);
+        }
+
+        List<Course> result = courseRepo.findByIdIn(new ArrayList<>(allRandomIds));
+
+        // Retry if fewer results are returned
+        int retries = 5;
+        while (result.size() < count && retries-- > 0) {
+            Set<Integer> foundIds = result.stream()
+                    .map(Course::getId)
+                    .collect(Collectors.toSet());
+
+            Set<Integer> missingIds = generateAdditionalRandomIds(minId, maxId, count - result.size(), foundIds);
+            if (missingIds.isEmpty()) break;
+
+            List<Course> additional = courseRepo.findByIdIn(new ArrayList<>(missingIds));
+            result.addAll(additional);
+        }
+
+        // Optional: If more than required, trim list
+        return result.size() > count ? result.subList(0, count) : result;
+    }
+
+    private Set<Integer> generateAdditionalRandomIds(Integer minId, Integer maxId, int count, Set<Integer> exclude) {
+        Set<Integer> newIds = new HashSet<>();
+        Random random = new Random();
+        int tries = 0;
+
+        while (newIds.size() < count && tries < count * 5) { // prevent infinite loop
+            Integer randomId = minId + random.nextInt((maxId - minId + 1));
+            if (!exclude.contains(randomId)) {
+                newIds.add(randomId);
+            }
+            tries++;
+        }
+
+        return newIds;
+    }
+
 }
 

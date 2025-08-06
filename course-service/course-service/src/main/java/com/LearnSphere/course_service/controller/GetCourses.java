@@ -31,4 +31,18 @@ public class GetCourses {
 
         return ResponseEntity.ok(new ApiResponse<>("No Courses Found",null,false));
     }
+
+    @GetMapping("/getFeaturedCourse")
+    public ResponseEntity<ApiResponse<List<Course>>> getFeaturedCourse(){
+        List<Course> courseList = courseService.getRandomEntities(3);
+
+        if(courseList.size()!=0){
+            return ResponseEntity.ok(new ApiResponse<>("Courses Fetched",courseList,true));
+        }
+
+        return ResponseEntity.ok(new ApiResponse<>("No Courses Found",null,false));
+
+    }
+
+
 }
