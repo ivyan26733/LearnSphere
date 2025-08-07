@@ -10,6 +10,27 @@ jobs:
   build-auth:
     name: Build Auth Service
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: UserDB
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/UserDB
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,7 +43,7 @@ jobs:
 
       - name: Build Auth Service
         working-directory: ./auth-service/auth-service
-        run: mvn clean install test
+        run: ./mvnw clean install test
 
   build-course:
     name: Build Course Service
@@ -39,7 +60,7 @@ jobs:
 
       - name: Build Course Service
         working-directory: ./course-service/course-service
-        run: mvn clean install test
+        run: ./mvnw clean install test
 
   build-gateway:
     name: Build API Gateway
@@ -56,11 +77,32 @@ jobs:
 
       - name: Build API Gateway
         working-directory: ./api-gateway/api-gateway
-        run: mvn clean install test
+        run: ./mvnw clean install test
 
   build-user:
     name: Build User Service
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: UserDB
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/UserDB
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -73,11 +115,12 @@ jobs:
 
       - name: Build User Service
         working-directory: ./User-service/User-service
-        run: mvn clean install test
+        run: ./mvnw clean install test
 
   build-enrollment:
     name: Build Enrollment Service
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -90,11 +133,12 @@ jobs:
 
       - name: Build Enrollment Service
         working-directory: ./enrollment-service/enrollment-service
-        run: mvn clean install test
+        run: ./mvnw clean install test
 
   build-eureka:
     name: Build Eureka Server
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -107,4 +151,4 @@ jobs:
 
       - name: Build Eureka Server
         working-directory: ./eureka-server/eureka-server
-        run: mvn clean install test
+        run: ./mvnw clean install test

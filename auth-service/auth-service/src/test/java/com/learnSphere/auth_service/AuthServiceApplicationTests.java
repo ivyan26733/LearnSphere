@@ -1,6 +1,7 @@
 package com.learnSphere.auth_service;
 
-import org.junit.jupiter.api.Test;
+import
+		org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -11,5 +12,4 @@ class AuthServiceApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
